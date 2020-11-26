@@ -52,13 +52,14 @@ namespace EFCoreRelationshipsPractice
             {
                 using (var context = scope.ServiceProvider.GetService<CompanyDbContext>())
                 {
-                    if (context.Database.IsMySql())
+                    if (context.Database.ProviderName == "Microsoft.EntityFrameworkCore.InMemory")
                     {
-                        context.Database.Migrate();
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
                     }
                     else
                     {
-                        context.Database.EnsureCreated();
+                        context.Database.Migrate();
                     }
                 }
             }

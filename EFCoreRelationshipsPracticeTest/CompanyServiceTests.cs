@@ -39,12 +39,13 @@ namespace EFCoreRelationshipsPracticeTest
             };
 
             var scope = Factory.Services.CreateScope();
+
             var scopedServices = scope.ServiceProvider;
             var context = scopedServices.GetRequiredService<CompanyDbContext>();
 
             var companyService = new CompanyService(context);
-            await companyService.AddCompany(companyDto);
-            Assert.Single(context.Companies);
+            companyService.AddCompany(companyDto);
+            Assert.Equal(1, context.Companies.Count());
         }
     }
 }
