@@ -38,7 +38,8 @@ namespace EFCoreRelationshipsPractice.Services
             {
                 Name = companyDto.Name,
                // Location = companyDto.Location,
-                Profile = new Entities.ProfileEntity(companyDto.Profile)
+                Profile = new Entities.ProfileEntity(companyDto.Profile),
+                Employees = companyDto.Employees.Select(employDTO => new EmployeeEntity(employDTO)).ToList()
             };
 
             await this.companyDbContext.Companies.AddAsync(companyEntity);

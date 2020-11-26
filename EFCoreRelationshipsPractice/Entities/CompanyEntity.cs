@@ -27,38 +27,4 @@ namespace EFCoreRelationshipsPractice.Entities
         // public int Rank { get; set; }
         public List<EmployeeEntity> Employees { get; set; }
     }
-
-    public class ProfileEntity
-    {
-        public ProfileEntity()
-        {
-        }
-
-        public ProfileEntity(ProfileDto profile)
-        {
-            this.CertId = profile.CertId;
-            this.RegisteredCapital = profile.RegisteredCapital;
-        }
-
-        public int Id { get; set; }
-        public int RegisteredCapital { get; set; }
-        public string CertId { get; set; }
-    }
-
-    public class EmployeeEntity
-    {
-        public EmployeeEntity()
-        {
-        }
-
-        public EmployeeEntity(EmployeeDto employeeDto)
-        {
-            this.Name = employeeDto.Name;
-            this.Age = employeeDto.Age;
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
-    }
 }

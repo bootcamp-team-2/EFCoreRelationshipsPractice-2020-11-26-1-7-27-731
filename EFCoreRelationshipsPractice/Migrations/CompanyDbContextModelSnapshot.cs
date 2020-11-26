@@ -23,9 +23,6 @@ namespace EFCoreRelationshipsPractice.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Location")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -37,6 +34,28 @@ namespace EFCoreRelationshipsPractice.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("EFCoreRelationshipsPractice.Entities.EmployeeEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CompanyEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyEntityId");
+
+                    b.ToTable("EmployeeEntity");
                 });
 
             modelBuilder.Entity("EFCoreRelationshipsPractice.Entities.ProfileEntity", b =>
@@ -61,6 +80,13 @@ namespace EFCoreRelationshipsPractice.Migrations
                     b.HasOne("EFCoreRelationshipsPractice.Entities.ProfileEntity", "Profile")
                         .WithMany()
                         .HasForeignKey("ProfileId");
+                });
+
+            modelBuilder.Entity("EFCoreRelationshipsPractice.Entities.EmployeeEntity", b =>
+                {
+                    b.HasOne("EFCoreRelationshipsPractice.Entities.CompanyEntity", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("CompanyEntityId");
                 });
 #pragma warning restore 612, 618
         }
