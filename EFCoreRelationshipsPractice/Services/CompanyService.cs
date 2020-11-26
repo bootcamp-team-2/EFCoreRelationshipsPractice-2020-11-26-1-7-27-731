@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EFCoreRelationshipsPractice.Dtos;
 using EFCoreRelationshipsPractice.Entites;
 using EFCoreRelationshipsPractice.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreRelationshipsPractice.Services
 {
@@ -19,12 +20,17 @@ namespace EFCoreRelationshipsPractice.Services
 
         public async Task<List<CompanyDto>> GetAll()
         {
-            throw new NotImplementedException();
+            return await this.companyDbContext.Companies
+                .Select(companyEntity => new CompanyDto(companyEntity))
+                .ToListAsync();
         }
 
         public async Task<CompanyDto> GetById(long id)
         {
-            throw new NotImplementedException();
+            var foundCompanyEntity = await this.companyDbContext.Companies
+                .FirstOrDefaultAsync(companyEntity => companyEntity.Id == id);
+
+            return new CompanyDto(foundCompanyEntity);
         }
 
         public async Task<int> AddCompany(CompanyDto companyDto)
