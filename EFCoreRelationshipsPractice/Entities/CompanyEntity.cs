@@ -58,6 +58,6 @@ namespace EFCoreRelationshipsPractice.Entities
         public int Id { get; set; }
         public int RegisteredCapital { get; set; }
         public string CertId { get; set; }
-        public ProfileEntity Entity { get; set; }
+        //public ProfileEntity Entity { get; set; }
     }
 }
