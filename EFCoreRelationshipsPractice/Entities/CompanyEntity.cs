@@ -16,6 +16,7 @@ namespace EFCoreRelationshipsPractice.Entities
         {
             this.Name = companyDto.Name;
             this.Profile = new ProfileEntity(companyDto.Profile);
+            this.Employees = companyDto.Employees.Select(employee => new EmployeeEntity(employee)).ToList();
         }
 
         public int Id { get; set; }
@@ -23,6 +24,23 @@ namespace EFCoreRelationshipsPractice.Entities
         public string Location { get; set; }
         public ProfileEntity Profile { get; set; }
         public List<EmployeeEntity> Employees { get; set; }
+    }
+
+    public class EmployeeEntity
+    {
+        public EmployeeEntity()
+        {
+        }
+
+        public EmployeeEntity(EmployeeDto employeeDto)
+        {
+            this.Name = employeeDto.Name;
+            this.Age = employeeDto.Age;
+        }
+
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
     }
 
     public class ProfileEntity
@@ -41,12 +59,5 @@ namespace EFCoreRelationshipsPractice.Entities
         public int RegisteredCapital { get; set; }
         public string CertId { get; set; }
         public ProfileEntity Entity { get; set; }
-    }
-
-    public class EmployeeEntity
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
     }
 }
