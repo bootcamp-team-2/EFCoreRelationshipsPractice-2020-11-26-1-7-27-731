@@ -134,6 +134,35 @@ namespace EFCoreRelationshipsPracticeTest
         }
 
         [Fact]
+        public async Task Should_delete_company_and_related_employee_and_profile_via_company_service()
+        {
+            var scope = Factory.Services.CreateScope();
+            var scopeServices = scope.ServiceProvider;
+            CompanyDbContext context = scopeServices.GetRequiredService<CompanyDbContext>();
+            CompanyDto companyDto = new CompanyDto();
+            companyDto.Name = "IBM";
+            companyDto.Employees = new List<EmployeeDto>()
+            {
+                new EmployeeDto()
+                {
+                    Name = "Tom",
+                    Age = 19
+                }
+            };
+
+            companyDto.Profile = new ProfileDto()
+            {
+                RegisteredCapital = 100010,
+                CertId = "100",
+            };
+
+            CompanyService companyService = new CompanyService(context);
+            var companyId = await companyService.AddCompanyAsync(companyDto);
+            await companyService.DeleteCompany(companyId);
+            Assert.Equal(0, context.Companies.Count());
+        }
+
+        [Fact]
         public async Task Should_create_many_companies_success()
         {
             var client = GetClient();
