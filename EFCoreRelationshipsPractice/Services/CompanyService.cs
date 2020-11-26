@@ -36,7 +36,9 @@ namespace EFCoreRelationshipsPractice.Services
         {
             CompanyEntity companyEntity = new CompanyEntity()
             {
-                Name = companyDto.Name
+                Name = companyDto.Name,
+               // Location = companyDto.Location,
+                Profile = new Entities.ProfileEntity(companyDto.Profile)
             };
 
             await this.companyDbContext.Companies.AddAsync(companyEntity);
@@ -47,6 +49,7 @@ namespace EFCoreRelationshipsPractice.Services
         public async Task DeleteCompany(int id)
         {
             throw new NotImplementedException();
+            //var foundCompany : Task<CompanyEntity> = Companies.FirstOrDefault
         }
     }
 }
