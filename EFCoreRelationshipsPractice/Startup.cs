@@ -54,7 +54,7 @@ namespace EFCoreRelationshipsPractice
                 {
                     //context.Database.EnsureDeleted();
                     //context.Database.EnsureCreated();
-                    context.Database.Migrate();
+                    //context.Database.Migrate();
                 }
             }
 
