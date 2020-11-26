@@ -23,7 +23,7 @@ namespace EFCoreRelationshipsPracticeTest
         public async Task Should_create_company_employee_profile_success()
         {
             var client = GetClient();
-            CompanyDto companyDto = new CompanyDto();
+            CompanyDtoEntity companyDto = new CompanyDtoEntity();
             companyDto.Name = "IBM";
             companyDto.Employees = new List<EmployeeDto>()
             {
@@ -47,7 +47,7 @@ namespace EFCoreRelationshipsPracticeTest
             var allCompaniesResponse = await client.GetAsync("/companies");
             var body = await allCompaniesResponse.Content.ReadAsStringAsync();
 
-            var returnCompanies = JsonConvert.DeserializeObject<List<CompanyDto>>(body);
+            var returnCompanies = JsonConvert.DeserializeObject<List<CompanyDtoEntity>>(body);
 
             Assert.Equal(1, returnCompanies.Count);
             Assert.Equal(companyDto.Employees.Count, returnCompanies[0].Employees.Count);
@@ -61,7 +61,7 @@ namespace EFCoreRelationshipsPracticeTest
         public async Task Should_delete_company_and_related_employee_and_profile_success()
         {
             var client = GetClient();
-            CompanyDto companyDto = new CompanyDto();
+            CompanyDtoEntity companyDto = new CompanyDtoEntity();
             companyDto.Name = "IBM";
             companyDto.Employees = new List<EmployeeDto>()
             {
@@ -86,7 +86,7 @@ namespace EFCoreRelationshipsPracticeTest
             var allCompaniesResponse = await client.GetAsync("/companies");
             var body = await allCompaniesResponse.Content.ReadAsStringAsync();
 
-            var returnCompanies = JsonConvert.DeserializeObject<List<CompanyDto>>(body);
+            var returnCompanies = JsonConvert.DeserializeObject<List<CompanyDtoEntity>>(body);
 
             Assert.Equal(0, returnCompanies.Count);
         }
@@ -95,7 +95,7 @@ namespace EFCoreRelationshipsPracticeTest
         public async Task Should_create_many_companies_success()
         {
             var client = GetClient();
-            CompanyDto companyDto = new CompanyDto();
+            CompanyDtoEntity companyDto = new CompanyDtoEntity();
             companyDto.Name = "IBM";
             companyDto.Employees = new List<EmployeeDto>()
             {
@@ -120,7 +120,7 @@ namespace EFCoreRelationshipsPracticeTest
             var allCompaniesResponse = await client.GetAsync("/companies");
             var body = await allCompaniesResponse.Content.ReadAsStringAsync();
 
-            var returnCompanies = JsonConvert.DeserializeObject<List<CompanyDto>>(body);
+            var returnCompanies = JsonConvert.DeserializeObject<List<CompanyDtoEntity>>(body);
 
             Assert.Equal(2, returnCompanies.Count);
         }
