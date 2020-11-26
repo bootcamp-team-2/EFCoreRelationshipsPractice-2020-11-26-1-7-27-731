@@ -26,8 +26,8 @@ namespace EFCoreRelationshipsPracticeTest
 
                 services.AddDbContext<CompanyDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
-                    //options.UseInMemoryDatabase(Guid.NewGuid().ToString());
+                    //options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseInMemoryDatabase(Guid.NewGuid().ToString());
                 });
 
                 var sp = services.BuildServiceProvider();

@@ -7,6 +7,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using EFCoreRelationshipsPractice;
+using EFCoreRelationshipsPractice.Controllers;
 using EFCoreRelationshipsPractice.Dtos;
 using EFCoreRelationshipsPractice.Repository;
 using EFCoreRelationshipsPractice.Services;
@@ -19,6 +20,7 @@ namespace EFCoreRelationshipsPracticeTest
 {
     public class CompanyControllerTest : TestBase
     {
+        private readonly CompanyController companyController;
         public CompanyControllerTest(CustomWebApplicationFactory<Startup> factory) : base(factory)
         {
         }
@@ -46,7 +48,7 @@ namespace EFCoreRelationshipsPracticeTest
 
             var httpContent = JsonConvert.SerializeObject(companyDto);
             StringContent content = new StringContent(httpContent, Encoding.UTF8, MediaTypeNames.Application.Json);
-            await client.PostAsync("/companies", content);
+            var postMessage = await client.PostAsync("/companies", content);
 
             var allCompaniesResponse = await client.GetAsync("/companies");
             var body = await allCompaniesResponse.Content.ReadAsStringAsync();
@@ -59,17 +61,6 @@ namespace EFCoreRelationshipsPracticeTest
             Assert.Equal(companyDto.Employees[0].Name, returnCompanies[0].Employees[0].Name);
             Assert.Equal(companyDto.Profile.CertId, returnCompanies[0].Profile.CertId);
             Assert.Equal(companyDto.Profile.RegisteredCapital, returnCompanies[0].Profile.RegisteredCapital);
-
-            //using (var scope = Factory.Services.CreateScope())
-            //{
-            //    var scopedServices = scope.ServiceProvider;
-            //    var context = scopedServices.GetRequiredService<CompanyDbContext>();
-            //    Assert.Equal(1, context.Companies.Count());
-            //    var firstCompany = await context.Companies
-            //        .Include(comp => comp.Profile)
-            //        .FirstOrDefaultAsync();
-            //    Assert.Equal(companyDto.Profile.CertId, firstCompany.Profile.CertId);
-            //}
         }
 
         [Fact]
