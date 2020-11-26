@@ -52,7 +52,14 @@ namespace EFCoreRelationshipsPractice
             {
                 using (var context = scope.ServiceProvider.GetService<CompanyDbContext>())
                 {
-                    context.Database.Migrate();
+                    if (context.Database.IsMySql())
+                    {
+                        context.Database.Migrate();
+                    }
+                    else
+                    {
+                        context.Database.EnsureCreated();
+                    }
                 }
             }
 

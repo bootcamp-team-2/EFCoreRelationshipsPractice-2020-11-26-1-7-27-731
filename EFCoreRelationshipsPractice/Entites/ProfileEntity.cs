@@ -18,8 +18,8 @@ namespace EFCoreRelationshipsPractice.Entites
             this.RegisteredCapital = profileDto.RegisteredCapital;
         }
 
-        public int Id { get; set; }
-        public int RegisteredCapital { get; set; }
+        public int? Id { get; set; }
+        public int? RegisteredCapital { get; set; }
         public string CertId { get; set; }
     }
 }

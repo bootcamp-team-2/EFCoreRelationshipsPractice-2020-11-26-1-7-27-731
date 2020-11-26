@@ -19,8 +19,8 @@ namespace EFCoreRelationshipsPractice.Entites
             Age = employeeDto.Age;
         }
 
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
-        public int Age { get; set; }
+        public int? Age { get; set; }
     }
 }

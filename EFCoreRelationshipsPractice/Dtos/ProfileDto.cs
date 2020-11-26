@@ -14,7 +14,7 @@ namespace EFCoreRelationshipsPractice.Dtos
             this.RegisteredCapital = profileEntity.RegisteredCapital;
         }
 
-        public int RegisteredCapital { get; set; }
+        public int? RegisteredCapital { get; set; }
         public string CertId { get; set; }
     }
 }
