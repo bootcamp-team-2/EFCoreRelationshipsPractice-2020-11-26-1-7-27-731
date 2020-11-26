@@ -3,14 +3,16 @@ using System;
 using EFCoreRelationshipsPractice.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreRelationshipsPractice.Migrations
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201126072943_InitalCreate")]
+    partial class InitalCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,28 +38,6 @@ namespace EFCoreRelationshipsPractice.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("EFCoreRelationshipsPractice.Entites.EmployeeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CompanyEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyEntityId");
-
-                    b.ToTable("EmployeeEntity");
-                });
-
             modelBuilder.Entity("EFCoreRelationshipsPractice.Entites.ProfileEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -80,13 +60,6 @@ namespace EFCoreRelationshipsPractice.Migrations
                     b.HasOne("EFCoreRelationshipsPractice.Entites.ProfileEntity", "Profile")
                         .WithMany()
                         .HasForeignKey("ProfileId");
-                });
-
-            modelBuilder.Entity("EFCoreRelationshipsPractice.Entites.EmployeeEntity", b =>
-                {
-                    b.HasOne("EFCoreRelationshipsPractice.Entites.CompanyEntity", null)
-                        .WithMany("Employees")
-                        .HasForeignKey("CompanyEntityId");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,10 +16,14 @@ namespace EFCoreRelationshipsPractice.Entites
         {
             this.Name = companyDto.Name;
             this.Profile = new ProfileEntity(companyDto.Profile);
+            this.Employees = companyDto.Employees
+                .Select(employeeDto => new EmployeeEntity(employeeDto))
+                .ToList();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public ProfileEntity Profile { get; set; }
+        public List<EmployeeEntity> Employees { get; set; }
     }
 }
