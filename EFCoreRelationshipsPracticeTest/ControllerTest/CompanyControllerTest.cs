@@ -163,6 +163,39 @@ namespace EFCoreRelationshipsPracticeTest
         }
 
         [Fact]
+        public async Task Should_create_company_employee_profile_success_via_company_service()
+        {
+            var scope = Factory.Services.CreateScope();
+            var scopeServices = scope.ServiceProvider;
+            CompanyDbContext context = scopeServices.GetRequiredService<CompanyDbContext>();
+            CompanyDto companyDto = new CompanyDto();
+            companyDto.Name = "IBM";
+            companyDto.Employees = new List<EmployeeDto>()
+            {
+                new EmployeeDto()
+                {
+                    Name = "Tom",
+                    Age = 19
+                }
+            };
+
+            companyDto.Profile = new ProfileDto()
+            {
+                RegisteredCapital = 100010,
+                CertId = "100",
+            };
+
+            CompanyService companyService = new CompanyService(context);
+            await companyService.AddCompanyAsync(companyDto);
+            Assert.Equal(1, context.Companies.Count());
+            Assert.Equal(companyDto.Employees.Count, context.Companies.Select(company => company.Employees).ToList().Count);
+            Assert.Equal(companyDto.Employees[0].Age, context.Companies.FirstOrDefault().Employees.FirstOrDefault().Age);
+            Assert.Equal(companyDto.Employees[0].Name, context.Companies.FirstOrDefault().Employees.FirstOrDefault().Name);
+            Assert.Equal(companyDto.Profile.CertId, context.Companies.FirstOrDefault().Profile.CertId);
+            Assert.Equal(companyDto.Profile.RegisteredCapital, context.Companies.FirstOrDefault().Profile.RegisteredCapital);
+        }
+
+        [Fact]
         public async Task Should_create_many_companies_success()
         {
             var client = GetClient();
