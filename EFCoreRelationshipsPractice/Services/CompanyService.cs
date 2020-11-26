@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EFCoreRelationshipsPractice.Dtos;
 using EFCoreRelationshipsPractice.Entity;
 using EFCoreRelationshipsPractice.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreRelationshipsPractice.Services
@@ -20,7 +21,10 @@ namespace EFCoreRelationshipsPractice.Services
 
         public async Task<List<CompanyDto>> GetAll()
         {
-            var companies = await this.companyDbContext.Companies.ToListAsync();
+            var companies = await this.companyDbContext.Companies
+                .Include(company => company.Profile)
+                .Include(company => company.Employees)
+                .ToListAsync();
             return this.companyDbContext.Companies.ToList().Select(companyEntity => new CompanyDto(companyEntity)).ToList();
         }
 
@@ -32,11 +36,7 @@ namespace EFCoreRelationshipsPractice.Services
 
         public async Task<int> AddCompanyAsync(CompanyDto companyDto)
         {
-            CompanyEntity companyEntity = new CompanyEntity()
-            {
-                Name = companyDto.Name
-            };
-
+            CompanyEntity companyEntity = new CompanyEntity(companyDto);
             await this.companyDbContext.Companies.AddAsync(companyEntity);
             await this.companyDbContext.SaveChangesAsync();
             return companyEntity.Id;
@@ -44,7 +44,9 @@ namespace EFCoreRelationshipsPractice.Services
 
         public async Task DeleteCompany(int id)
         {
-            throw new NotImplementedException();
+            var foundCompany = await this.companyDbContext.Companies.FirstOrDefaultAsync(company => company.Id == id);
+            companyDbContext.Companies.Remove(foundCompany);
+            await companyDbContext.SaveChangesAsync();
         }
     }
 }
