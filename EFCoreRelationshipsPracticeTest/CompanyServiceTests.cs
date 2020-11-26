@@ -117,5 +117,40 @@ namespace EFCoreRelationshipsPracticeTest
             Assert.Equal(100010, companies[0].Profile.RegisteredCapital);
             Assert.Equal("100", companies[0].Profile.CertId);
         }
+
+        [Fact]
+        public async Task Should_delete_company_and_related_employees_by_id_success_via_company_service()
+        {
+            CompanyDto companyDto = new CompanyDto();
+            companyDto.Name = "IBM";
+            companyDto.Employees = new List<EmployeeDto>()
+            {
+                new EmployeeDto()
+                {
+                    Name = "Tom",
+                    Age = 19
+                },
+            };
+
+            companyDto.Profile = new ProfileDto()
+            {
+                RegisteredCapital = 100010,
+                CertId = "100",
+            };
+
+            var scope = Factory.Services.CreateScope();
+            var scopedServices = scope.ServiceProvider;
+            var context = scopedServices.GetRequiredService<CompanyDbContext>();
+            var companyService = new CompanyService(context);
+            var id = await companyService.AddCompany(companyDto);
+            await companyService.AddCompany(companyDto);
+
+            await companyService.DeleteCompany(id);
+
+            var companies = await companyService.GetAll();
+            Assert.Equal(1, companies.Count);
+            var company = await companyService.GetById(id);
+            Assert.Null(company);
+        }
     }
 }

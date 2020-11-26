@@ -13,10 +13,10 @@ namespace EFCoreRelationshipsPractice.Dtos
         public CompanyDto(CompanyEntity companyEntity)
         {
             Name = companyEntity.Name;
-            Profile = new ProfileDto(companyEntity.Profile);
-            Employees = companyEntity.Employees?
-                .Select(employeeEntity => new EmployeeDto(employeeEntity))
-                .ToList();
+                Profile = new ProfileDto(companyEntity.Profile);
+                Employees = companyEntity.Employees?
+                    .Select(employeeEntity => new EmployeeDto(employeeEntity))
+                    .ToList();
         }
 
         public string Name { get; set; }

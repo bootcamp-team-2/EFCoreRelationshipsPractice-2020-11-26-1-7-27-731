@@ -33,8 +33,14 @@ namespace EFCoreRelationshipsPractice.Services
                 .Include(company => company.Employees)
                 .Include(company => company.Profile)
                 .FirstOrDefaultAsync(companyEntity => companyEntity.Id == id);
-
-            return new CompanyDto(foundCompanyEntity);
+            if (foundCompanyEntity != null)
+            {
+                return new CompanyDto(foundCompanyEntity);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<int> AddCompany(CompanyDto companyDto)
