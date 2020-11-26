@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using EFCoreRelationshipsPractice;
 using EFCoreRelationshipsPractice.Dtos;
+using EFCoreRelationshipsPractice.Repository;
+using EFCoreRelationshipsPractice.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -123,6 +126,21 @@ namespace EFCoreRelationshipsPracticeTest
             var returnCompanies = JsonConvert.DeserializeObject<List<CompanyDto>>(body);
 
             Assert.Equal(2, returnCompanies.Count);
+        }
+
+        [Fact]
+        public async Task Should_create_company_successfully_via_company_service()
+        {
+            var scope = Factory.Services.CreateScope();
+            var scopedServices = scope.ServiceProvider;
+            CompanyDbContext context = scopedServices.GetRequiredService<CompanyDbContext>();
+            CompanyDto companyDto = new CompanyDto();
+            companyDto.Name = "IBM";
+            companyDto.Employees = new List<EmployeeDto>() { new EmployeeDto() { Name = "Tom", Age = 19 } };
+            companyDto.Profile = new ProfileDto() { RegisteredCapital = 100010, CertId = "100", };
+            CompanyService companyService = new CompanyService(context);
+            await companyService.AddCompany(companyDto);
+            Assert.Equal(1, context.Companies.Count());
         }
     }
 }
