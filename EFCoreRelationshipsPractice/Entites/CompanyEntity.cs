@@ -25,6 +25,7 @@ namespace EFCoreRelationshipsPractice.Entites
         public int Id { get; set; }
         public string Name { get; set; }
         public ProfileEntity? Profile { get; set; }
+        [ForeignKey("CompanyId")]
         public List<EmployeeEntity>? Employees { get; set; }
     }
 }
