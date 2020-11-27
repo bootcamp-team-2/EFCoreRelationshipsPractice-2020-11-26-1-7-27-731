@@ -11,6 +11,7 @@ using EFCoreRelationshipsPractice.Controllers;
 using EFCoreRelationshipsPractice.Dtos;
 using EFCoreRelationshipsPractice.Repository;
 using EFCoreRelationshipsPractice.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -130,5 +131,42 @@ namespace EFCoreRelationshipsPracticeTest
 
             Assert.Equal(2, returnCompanies.Count);
         }
+
+        //[Fact]
+        //public async Task Should_create_company_employee_profile_success_via_controller()
+        //{
+        //    var client = GetClient();
+        //    CompanyDto companyDto = new CompanyDto();
+        //    companyDto.Name = "IBM";
+        //    companyDto.Employees = new List<EmployeeDto>()
+        //    {
+        //        new EmployeeDto()
+        //        {
+        //            Name = "Tom",
+        //            Age = 19
+        //        },
+        //    };
+
+        //    companyDto.Profile = new ProfileDto()
+        //    {
+        //        RegisteredCapital = 100010,
+        //        CertId = "100",
+        //    };
+
+        //    var scope = Factory.Services.CreateScope();
+        //    var dbContext = scope.ServiceProvider.GetRequiredService<CompanyDbContext>();
+        //    var service = new CompanyService(dbContext);
+        //    var controller = new CompanyController(service);
+        //    await controller.Add(companyDto);
+        //    var companies = await controller.List();
+        //    var returnCompanies = companies.Value;
+
+        //    Assert.Single(returnCompanies);
+        //    Assert.Equal(companyDto.Employees.Count, returnCompanies[0].Employees.Count);
+        //    Assert.Equal(companyDto.Employees[0].Age, returnCompanies[0].Employees[0].Age);
+        //    Assert.Equal(companyDto.Employees[0].Name, returnCompanies[0].Employees[0].Name);
+        //    Assert.Equal(companyDto.Profile.CertId, returnCompanies[0].Profile.CertId);
+        //    Assert.Equal(companyDto.Profile.RegisteredCapital, returnCompanies[0].Profile.RegisteredCapital);
+        //}
     }
 }

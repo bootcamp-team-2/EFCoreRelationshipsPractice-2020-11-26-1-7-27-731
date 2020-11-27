@@ -28,7 +28,7 @@ namespace EFCoreRelationshipsPracticeTest
                 {
                     //options.UseInMemoryDatabase("InMemoryDbForTesting");
                     options.UseInMemoryDatabase(Guid.NewGuid().ToString());
-                });
+                }, ServiceLifetime.Singleton);
 
                 var sp = services.BuildServiceProvider();
 
