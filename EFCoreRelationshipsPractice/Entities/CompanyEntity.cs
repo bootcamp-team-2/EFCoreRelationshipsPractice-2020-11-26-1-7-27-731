@@ -24,7 +24,6 @@ namespace EFCoreRelationshipsPractice.Entities
         public string Name { get; set; }
         public string Location { get; set; }
         public ProfileEntity Profile { get; set; }
-        [ForeignKey("CompanyRefId")]
         public List<EmployeeEntity> Employees { get; set; }
     }
 
@@ -43,7 +42,9 @@ namespace EFCoreRelationshipsPractice.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
-        public int CompanyRefId { get; set; }
+        public CompanyEntity CompanyEntity { get; set; }
+        [ForeignKey("CompanyIdForeignKey")]
+        public int CompanyId { get; set; }
     }
 
     public class ProfileEntity
@@ -58,13 +59,11 @@ namespace EFCoreRelationshipsPractice.Entities
             this.RegisteredCapital = profileDto.RegisteredCapital;
         }
 
-        [ForeignKey("CompanyEntity")]
         public int Id { get; set; }
         public int RegisteredCapital { get; set; }
         public string CertId { get; set; }
-        public int CompanyRefIdForProfile { get; set; }
         public CompanyEntity CompanyEntity { get; set; }
-
-        //public ProfileEntity Entity { get; set; }
+        [ForeignKey("CompanyIdForeignKey")]
+        public int CompanyId { get; set; }
     }
 }

@@ -55,7 +55,10 @@ namespace EFCoreRelationshipsPractice
                     //context.Database.EnsureDeleted();
                     //context.Database.EnsureCreated();
 
-                    //context.Database.Migrate();
+                    if (context.Database.ProviderName.ToLower().Contains("mysql"))
+                    {
+                        context.Database.Migrate();
+                    }
                 }
             }
 
