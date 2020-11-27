@@ -8,11 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using EFCoreRelationshipsPractice;
 using EFCoreRelationshipsPractice.Dtos;
+using EFCoreRelationshipsPractice.Repository;
+using EFCoreRelationshipsPractice.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
 
 namespace EFCoreRelationshipsPracticeTest
 {
+    [Collection("IntegrationTest")]
     public class CompanyControllerTest : TestBase
     {
         public CompanyControllerTest(CustomWebApplicationFactory<Startup> factory) : base(factory)
@@ -55,6 +60,13 @@ namespace EFCoreRelationshipsPracticeTest
             Assert.Equal(companyDto.Employees[0].Name, returnCompanies[0].Employees[0].Name);
             Assert.Equal(companyDto.Profile.CertId, returnCompanies[0].Profile.CertId);
             Assert.Equal(companyDto.Profile.RegisteredCapital, returnCompanies[0].Profile.RegisteredCapital);
+
+            var scope = Factory.Services.CreateScope();
+            var scopedServices = scope.ServiceProvider;
+            var context = scopedServices.GetRequiredService<CompanyDbContext>();
+            Assert.Equal(1, context.Companies.ToList().Count);
+            var firstCompany = await context.Companies.Include(company => company.Profile).FirstOrDefaultAsync();
+            Assert.Equal(companyDto.Profile.CertId, firstCompany.Profile.CertId);
         }
 
         [Fact]
