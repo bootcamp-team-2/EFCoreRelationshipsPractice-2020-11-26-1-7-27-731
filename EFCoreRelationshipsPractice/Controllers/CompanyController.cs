@@ -37,7 +37,7 @@ namespace EFCoreRelationshipsPractice.Controllers
         [HttpPost]
         public async Task<ActionResult<CompanyDto>> Add(CompanyDto companyDto)
         {
-            var id = await this.companyService.AddCompany(companyDto);
+            var id = await this.companyService.AddCompanyAsync(companyDto);
 
             return CreatedAtAction(nameof(GetById), new { id = id }, companyDto);
         }
