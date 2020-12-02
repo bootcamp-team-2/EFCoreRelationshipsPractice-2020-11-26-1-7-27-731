@@ -52,8 +52,15 @@ namespace EFCoreRelationshipsPractice
             {
                 using (var context = scope.ServiceProvider.GetService<CompanyDbContext>())
                 {
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
+                    if (context.Database.ProviderName == "Microsoft.EntityFrameworkCore.InMemory")
+                    {
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
+                    }
+                    else
+                    {
+                        context.Database.Migrate();
+                    }
                 }
             }
 

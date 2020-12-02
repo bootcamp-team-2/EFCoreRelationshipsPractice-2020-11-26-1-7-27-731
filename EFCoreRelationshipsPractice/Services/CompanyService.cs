@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EFCoreRelationshipsPractice.Dtos;
+using EFCoreRelationshipsPractice.Entites;
 using EFCoreRelationshipsPractice.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreRelationshipsPractice.Services
 {
@@ -18,22 +20,46 @@ namespace EFCoreRelationshipsPractice.Services
 
         public async Task<List<CompanyDto>> GetAll()
         {
-            throw new NotImplementedException();
+            return await this.companyDbContext.Companies
+                .Include(company => company.Employees)
+                .Include(company => company.Profile)
+                .Select(companyEntity => new CompanyDto(companyEntity))
+                .ToListAsync();
         }
 
         public async Task<CompanyDto> GetById(long id)
         {
-            throw new NotImplementedException();
+            var foundCompanyEntity = await this.companyDbContext.Companies
+                .Include(company => company.Employees)
+                .Include(company => company.Profile)
+                .FirstOrDefaultAsync(companyEntity => companyEntity.Id == id);
+            if (foundCompanyEntity != null)
+            {
+                return new CompanyDto(foundCompanyEntity);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<int> AddCompany(CompanyDto companyDto)
         {
-            throw new NotImplementedException();
+            var companyEntity = new CompanyEntity(companyDto);
+
+            await this.companyDbContext.Companies.AddAsync(companyEntity);
+            await this.companyDbContext.SaveChangesAsync();
+            return companyEntity.Id;
         }
 
         public async Task DeleteCompany(int id)
         {
-            throw new NotImplementedException();
+            var foundCompanyEntity = await this.companyDbContext.Companies
+                .Include(company => company.Employees)
+                .Include(company => company.Profile)
+                .FirstOrDefaultAsync(company => company.Id == id);
+            this.companyDbContext.Companies.Remove(foundCompanyEntity);
+            await this.companyDbContext.SaveChangesAsync();
         }
     }
 }
